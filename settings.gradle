@@ -1,1 +1,4 @@
 include ':app'
+include ':radar'
+
+rootProject.name = 'radar-parent'
