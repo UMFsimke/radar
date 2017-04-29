@@ -1,13 +1,14 @@
 package radar;
 
-import android.support.annotation.StringRes;
-import java.lang.annotation.ElementType;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.CLASS;
+
+import android.support.annotation.LayoutRes;
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Retention(RetentionPolicy.CLASS)
-@Target(ElementType.TYPE)
+@Retention(CLASS)
+@Target(TYPE)
 public @interface ViewHolder {
-  @StringRes int layoutId() default 0;
+  @LayoutRes int layoutId() default 0;
 }
