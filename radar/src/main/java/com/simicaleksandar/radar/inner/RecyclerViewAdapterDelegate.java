@@ -36,7 +36,7 @@ public abstract class RecyclerViewAdapterDelegate<T extends DisplayableItem> ext
     return getViewHolder(itemView);
   }
 
-  protected abstract <VH extends RadarViewHolder<T>> VH getViewHolder(View itemView);
+  protected abstract RadarViewHolder<T> getViewHolder(View itemView);
 
   @SuppressWarnings("unchecked")
   @Override
