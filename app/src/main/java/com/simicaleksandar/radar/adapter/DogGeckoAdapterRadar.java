@@ -21,7 +21,7 @@ public class DogGeckoAdapterRadar extends RadarBaseAdapter {
   protected void addAdapterDelegates(Activity activity,
       AdapterDelegatesManager<List<DisplayableItem>> manager) {
     manager.addDelegate(new DogAdapterDelegate(activity, DogDataModel.class,
-        R.layout.gecko_desc));
+        R.layout.dog_desc));
     manager.addDelegate(new GeckoAdapterDelegate(activity, GeckoDataModel.class,
         R.layout.gecko_desc));
   }

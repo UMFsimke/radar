@@ -69,7 +69,7 @@ public abstract class RadarBaseAdapter extends RecyclerView.Adapter implements R
     }
 
     if (this.items == null) {
-      items = new ArrayList<>();
+      this.items = new ArrayList<>();
     }
 
     this.items.addAll(position, items);

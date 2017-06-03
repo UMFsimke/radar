@@ -33,7 +33,7 @@ public class DogAdapterDelegate extends RecyclerViewAdapterDelegate<DogDataModel
 
     @Override
     public void bindViews(View itemView) {
-      dogDescription = (TextView) itemView.findViewById(R.id.gecko_desc);
+      dogDescription = (TextView) itemView.findViewById(R.id.dog_desc);
     }
 
     @Override
