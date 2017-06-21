@@ -5,7 +5,7 @@ import javax.lang.model.element.ElementKind;
 
 class Utils {
 
-  public static boolean isAnnotatedElementClass(Element element) {
+  static boolean isAnnotatedElementClass(Element element) {
     return isAnnotatedElementOfKind(element, ElementKind.CLASS);
   }
 

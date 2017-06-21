@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import com.simicaleksandar.radar.R;
@@ -19,20 +20,16 @@ public class DogAdapterDelegate extends RecyclerViewAdapterDelegate<DogDataModel
   }
 
   @Override
-  protected DogRowViewHolder getViewHolder(View itemView) {
-    return new DogRowViewHolder(itemView);
+  protected RadarViewHolder<DogDataModel> getViewHolderDelegate() {
+    return new DogRowViewHolder();
   }
 
-  private static class DogRowViewHolder extends RadarViewHolder<DogDataModel> {
+  private static class DogRowViewHolder implements RadarViewHolder<DogDataModel> {
 
-    TextView dogDescription;
-
-    public DogRowViewHolder(View itemView) {
-      super(itemView);
-    }
+    private TextView dogDescription;
 
     @Override
-    public void bindViews(View itemView) {
+    public void onCreateViewHolder(View itemView) {
       dogDescription = (TextView) itemView.findViewById(R.id.dog_desc);
     }
 

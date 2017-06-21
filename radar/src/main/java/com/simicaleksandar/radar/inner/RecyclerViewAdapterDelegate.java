@@ -6,9 +6,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
+import com.simicaleksandar.radar.BaseViewHolder;
 import com.simicaleksandar.radar.DisplayableItem;
 import com.simicaleksandar.radar.RadarViewHolder;
+
 import java.util.List;
 
 public abstract class RecyclerViewAdapterDelegate<T extends DisplayableItem> extends
@@ -33,15 +36,17 @@ public abstract class RecyclerViewAdapterDelegate<T extends DisplayableItem> ext
   @Override
   protected ViewHolder onCreateViewHolder(ViewGroup parent) {
     View itemView = layoutInflaterManager.inflate(layoutId, parent, false);
-    return getViewHolder(itemView);
+    RadarViewHolder<T> viewHolderDelegate = getViewHolderDelegate();
+    BaseViewHolder<T> viewHolder = new BaseViewHolder<>(itemView, viewHolderDelegate);
+    return viewHolder;
   }
 
-  protected abstract RadarViewHolder<T> getViewHolder(View itemView);
+  protected abstract RadarViewHolder<T> getViewHolderDelegate();
 
   @SuppressWarnings("unchecked")
   @Override
   protected void onBindViewHolder(@NonNull List<DisplayableItem> items, int position,
       @NonNull ViewHolder holder, @NonNull List<Object> payloads) {
-    ((RadarViewHolder) holder).onBindViewHolder(holder.itemView, position, items.get(position));
+    ((BaseViewHolder) holder).render(position, items.get(position));
   }
 }

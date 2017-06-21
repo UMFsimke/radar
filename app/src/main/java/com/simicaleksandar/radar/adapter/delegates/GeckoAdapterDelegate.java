@@ -19,20 +19,16 @@ public class GeckoAdapterDelegate extends RecyclerViewAdapterDelegate<GeckoDataM
   }
 
   @Override
-  protected GeckoRowViewHolder getViewHolder(View itemView) {
-    return new GeckoRowViewHolder(itemView);
+  protected GeckoRowViewHolder getViewHolderDelegate() {
+    return new GeckoRowViewHolder();
   }
 
-  private static class GeckoRowViewHolder extends RadarViewHolder<GeckoDataModel> {
+  private static class GeckoRowViewHolder implements RadarViewHolder<GeckoDataModel> {
 
-    TextView geckoDescription;
-
-    public GeckoRowViewHolder(View itemView) {
-      super(itemView);
-    }
+    private TextView geckoDescription;
 
     @Override
-    public void bindViews(View itemView) {
+    public void onCreateViewHolder(View itemView) {
       geckoDescription = (TextView) itemView.findViewById(R.id.gecko_desc);
     }
 

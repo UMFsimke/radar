@@ -1,17 +1,14 @@
 package com.simicaleksandar.radar;
 
-import static javax.lang.model.element.Modifier.ABSTRACT;
-import static javax.lang.model.element.Modifier.PRIVATE;
-import static javax.lang.model.element.Modifier.STATIC;
-
 import com.google.auto.common.SuperficialValidation;
 import com.google.auto.service.AutoService;
+
 import java.lang.annotation.Annotation;
 import java.util.LinkedHashSet;
 import java.util.Set;
+
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
-import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
@@ -22,8 +19,13 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
+
+import radar.AdapterFactory;
 import radar.RecyclerViewAdapter;
 import radar.ViewHolder;
+
+import static javax.lang.model.element.Modifier.ABSTRACT;
+import static javax.lang.model.element.Modifier.PRIVATE;
 
 @AutoService(Processor.class)
 public class RadarProcessor extends AbstractProcessor {
@@ -54,6 +56,7 @@ public class RadarProcessor extends AbstractProcessor {
 
     annotations.add(RecyclerViewAdapter.class);
     annotations.add(ViewHolder.class);
+    annotations.add(AdapterFactory.class);
 
     return annotations;
   }
