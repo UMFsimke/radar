@@ -9,8 +9,9 @@ import android.view.ViewGroup;
 
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
 import com.simicaleksandar.radar.BaseViewHolder;
-import com.simicaleksandar.radar.DisplayableItem;
-import com.simicaleksandar.radar.RadarViewHolder;
+
+import radar.DisplayableItem;
+import radar.RadarViewHolder;
 
 import java.util.List;
 

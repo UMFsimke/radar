@@ -1,7 +1,8 @@
 package com.simicaleksandar.radar.datamodel;
 
-import com.simicaleksandar.radar.DisplayableItem;
 import com.simicaleksandar.radar.model.Dog;
+
+import radar.DisplayableItem;
 
 public class DogDataModel implements DisplayableItem {
 

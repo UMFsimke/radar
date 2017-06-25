@@ -1,8 +1,8 @@
 package com.simicaleksandar.radar.validation;
 
-class ValidationException extends Exception {
+public class ValidationException extends Exception {
 
-  ValidationException(String msg, Object... args) {
+  public ValidationException(String msg, Object... args) {
     super(String.format(msg, args));
   }
 }

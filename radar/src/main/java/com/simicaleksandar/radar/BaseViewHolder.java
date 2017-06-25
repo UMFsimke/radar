@@ -3,6 +3,9 @@ package com.simicaleksandar.radar;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import radar.DisplayableItem;
+import radar.RadarViewHolder;
+
 public class BaseViewHolder<T extends DisplayableItem> extends RecyclerView.ViewHolder {
 
     private RadarViewHolder<T> viewHolderDelegate;

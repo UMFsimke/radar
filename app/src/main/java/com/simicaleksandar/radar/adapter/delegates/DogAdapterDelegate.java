@@ -4,11 +4,10 @@ import android.app.Activity;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import com.simicaleksandar.radar.R;
-import com.simicaleksandar.radar.RadarViewHolder;
+import radar.RadarViewHolder;
 import com.simicaleksandar.radar.datamodel.DogDataModel;
 import com.simicaleksandar.radar.inner.RecyclerViewAdapterDelegate;
 

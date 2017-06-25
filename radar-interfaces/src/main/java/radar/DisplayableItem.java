@@ -1,4 +1,4 @@
-package com.simicaleksandar.radar;
+package radar;
 
 public interface DisplayableItem {
 }

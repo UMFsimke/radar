@@ -1,38 +1,44 @@
 package com.simicaleksandar.radar.validation;
 
-import java.util.Set;
+import com.simicaleksandar.radar.ViewHolderAnnotatedClass;
 
-import javax.lang.model.element.Element;
-import javax.lang.model.element.Modifier;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 
+import radar.RadarViewHolder;
 import radar.ViewHolder;
 
-import static javax.lang.model.element.Modifier.ABSTRACT;
-import static javax.lang.model.element.Modifier.PUBLIC;
+final class ViewHolderValidator extends ClassValidator<ViewHolderAnnotatedClass> {
 
-final class ViewHolderValidator {
+  private static ViewHolderValidator instance;
 
-  static void validate(Element annotatedElement) throws ValidationException {
-    ensureIsClassAnnotated(annotatedElement);
-    ensureIsAccessibleInGeneratedCode(annotatedElement);
+  public static ViewHolderValidator getInstance(Elements elementUtils, Types typeUtils) {
+    if (instance == null) {
+      instance = new ViewHolderValidator(elementUtils, typeUtils);
+    }
+
+    return instance;
   }
 
-  private static void ensureIsClassAnnotated(Element annotatedElement) throws ValidationException {
-    if (Utils.isAnnotatedElementClass(annotatedElement)) return;
-
-    throw new ValidationException("Only classes can be annotated with @%s",
-          ViewHolder.class.getSimpleName());
+  protected ViewHolderValidator(Elements elementUtils, Types typeUtils) {
+    super(elementUtils, typeUtils);
   }
 
-  private static void ensureIsAccessibleInGeneratedCode(Element annotatedElement)
-          throws ValidationException {
-    Set<Modifier> modifiers = annotatedElement.getModifiers();
-    if (modifiers.contains(PUBLIC) && !modifiers.contains(ABSTRACT)) return;
-
-  throw new ValidationException("Class %s annotated with @%s must not be private, protected" +
-          " or abstract.",
-          annotatedElement.getSimpleName(),
-          ViewHolder.class.getSimpleName());
+  /**
+   * Class annotated with {@link ViewHolder} must satisfy:
+   * <ul>
+   *     <li>Must be public</li>
+   *     <li>Can't be abstract</li>
+   *     <li>Must implement or be subclass of superclass that implements {@link RadarViewHolder}</li>
+   *     <li>Must have empty constructor</li>
+   * </ul>
+   * @param element
+   * @throws ValidationException
+   */
+  @Override
+  public void validate(ViewHolderAnnotatedClass element) throws ValidationException {
+    ensureIsAccessibleInGeneratedCode(element, ViewHolder.class);
+    ensureIsImplementingInterface(element, RadarViewHolder.class, ViewHolder.class);
+    ensureHasEmptyConstructor(element);
   }
-
 }

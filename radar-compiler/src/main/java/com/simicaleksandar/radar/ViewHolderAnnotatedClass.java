@@ -1,47 +1,58 @@
 package com.simicaleksandar.radar;
 
+import android.support.annotation.LayoutRes;
+
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
+
 import radar.ViewHolder;
 
-class ViewHolderAnnotatedClass {
+public class ViewHolderAnnotatedClass extends AnnotatedClass {
 
-  private int layoutId;
-  private String simpleTypeName;
-  private String qualifiedClassName;
+  private @LayoutRes int layoutId;
 
-
-  public ViewHolderAnnotatedClass(TypeElement classElement) throws IllegalArgumentException {
-    ViewHolder annotation = classElement.getAnnotation(ViewHolder.class);
-    layoutId = annotation.layoutId();
-
-    if (layoutId == 0) {
-      throw new IllegalArgumentException(
-          String.format("Layout resource id has to be defined for a view holder @%s",
-              classElement.getQualifiedName().toString()));
-    }
-
-    qualifiedClassName = classElement.getQualifiedName().toString();
-    simpleTypeName = classElement.getSimpleName().toString();
+  public ViewHolderAnnotatedClass(Element element) throws IllegalArgumentException {
+    super(element);
+    validate();
   }
 
-  public int getLayoutId() {
+  /**
+   * Reads required data from class element for a class that is annotated with
+   * {@link ViewHolder} annotation.
+   */
+  @Override
+  protected void readRequiredInfo() {
+    super.readRequiredInfo();
+    ViewHolder annotation = annotatedClassElement.getAnnotation(ViewHolder.class);
+    layoutId = annotation.layoutId();
+  }
+
+  /**
+   * Validates if developer provided all required annotation fields. If layout is not provided
+   * then {@link IllegalArgumentException} is thrown
+   *
+   * @throws IllegalArgumentException Exc
+   */
+  private void validate() throws IllegalArgumentException {
+    //TODO: check if layout ID (resource ID in general) can be negative, if it can't change to >
+    if (layoutId != 0) return;
+
+    throw new IllegalArgumentException(
+            String.format("Layout resource id has to be defined for a view holder @%s",
+                    qualifiedClassName));
+  }
+
+  /**
+   * Gets layout id that is specified in {@link ViewHolder#layoutId()}
+   *
+   * @return Layout ID
+   */
+  public @LayoutRes int getLayoutId() {
     return layoutId;
   }
 
-  public String getSimpleTypeName() {
-    return simpleTypeName;
-  }
-
-  public String getQualifiedClassName() {
-    return qualifiedClassName;
-  }
-
-  public static class Validator {
-
-    public static boolean isValidForParsing(Element element) {
-
-    }
+  @Override
+  public Kind getKind() {
+    return Kind.VIEW_HOLDER;
   }
 }

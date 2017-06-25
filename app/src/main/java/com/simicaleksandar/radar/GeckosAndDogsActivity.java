@@ -15,6 +15,8 @@ import com.simicaleksandar.radar.model.Gecko;
 import java.util.ArrayList;
 import java.util.List;
 
+import radar.DisplayableItem;
+
 /**
  * Created by aleksandarsimic on 6/2/17.
  */

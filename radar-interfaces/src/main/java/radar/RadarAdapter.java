@@ -1,4 +1,4 @@
-package com.simicaleksandar.radar;
+package radar;
 
 import java.util.List;
 

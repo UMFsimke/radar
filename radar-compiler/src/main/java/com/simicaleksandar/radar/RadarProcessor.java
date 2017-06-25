@@ -2,6 +2,8 @@ package com.simicaleksandar.radar;
 
 import com.google.auto.common.SuperficialValidation;
 import com.google.auto.service.AutoService;
+import com.simicaleksandar.radar.validation.ValidationException;
+import com.simicaleksandar.radar.validation.Validator;
 
 import java.lang.annotation.Annotation;
 import java.util.LinkedHashSet;
@@ -71,53 +73,11 @@ public class RadarProcessor extends AbstractProcessor {
     return false;
   }
 
-  private Map<TypeElement, BindingSet> findAndParseTargets(RoundEnvironment env) {
-
-    for (Element element : env.getElementsAnnotatedWith(RecyclerViewAdapter.class)) {
-      if (!SuperficialValidation.validateElement(element)) continue;
-
-      try {
-        parseRecyclerViewAdapter(element, builderMap, erasedTargetNames);
-      } catch (Exception e) {
-        logParsingError(element, BindArray.class, e);
-      }
-    }
-  }
-
-  private void parseViewHolder(Element annotatedElement) {
-    boolean hasError = false;
-
-    if (annotatedElement.getKind() != ElementKind.CLASS) {
-      Logger.error(annotatedElement, "Only classes can be annotated with @%s",
-          ViewHolder.class.getSimpleName());
-      hasError = true;
-    }
-
-
-  }
-
-
-
-  private void parseRecyclerViewAdapter(Element annotatedElement,
-      Map<TypeElement, BindingSet.Builder> builderMap, Set<TypeElement> erasedTargetNames) {
-
-    boolean hasError = false;
-    if (annotatedElement.getKind() != ElementKind.CLASS) {
-      Logger.error(annotatedElement, "Only classes can be annotated with @%s",
-          RecyclerViewAdapter.class.getSimpleName());
-      hasError = true; // Exit processing
-    }
-  }
-
-  private boolean isViewHolderInaccessible(Class<? extends Annotation> annotationClass,
-      Element element) {
-    Set<Modifier> modifiers = element.getModifiers();
-    if (modifiers.contains(PRIVATE) || modifiers.contains(ABSTRACT)) {
-      Logger.error(element, "Class %s annotated with @%s must not be private or abstract.",
-          element.getSimpleName(), annotationClass.getSimpleName());
-      return true;
-    }
-
-    return false;
+  private ViewHolderAnnotatedClass parseViewHolderElement(Element annotatedElement) throws
+          ValidationException {
+    ViewHolderAnnotatedClass viewHolderAnnotatedClass = new
+            ViewHolderAnnotatedClass(annotatedElement);
+    Validator.newInstance(elementUtils, typeUtils).validate(viewHolderAnnotatedClass);
+    return viewHolderAnnotatedClass;
   }
 }

@@ -1,5 +1,4 @@
-include ':radar', ':radar-compiler'
+include ':radar', ':radar-compiler', ':radar-interfaces'
 include ':radar-annotations'
 include ':app',
-
         rootProject.name = 'radar-parent'

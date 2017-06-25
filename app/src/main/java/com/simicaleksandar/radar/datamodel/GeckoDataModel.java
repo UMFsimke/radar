@@ -1,7 +1,8 @@
 package com.simicaleksandar.radar.datamodel;
 
-import com.simicaleksandar.radar.DisplayableItem;
 import com.simicaleksandar.radar.model.Gecko;
+
+import radar.DisplayableItem;
 
 /**
  * Created by Aleksandar on 4/30/2017.

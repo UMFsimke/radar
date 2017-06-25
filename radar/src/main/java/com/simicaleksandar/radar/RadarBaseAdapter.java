@@ -7,6 +7,9 @@ import com.hannesdorfmann.adapterdelegates3.AdapterDelegatesManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import radar.DisplayableItem;
+import radar.RadarAdapter;
+
 public abstract class RadarBaseAdapter extends RecyclerView.Adapter implements RadarAdapter {
 
   private AdapterDelegatesManager<List<DisplayableItem>> delegatesManager;

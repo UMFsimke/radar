@@ -1,4 +1,4 @@
-package com.simicaleksandar.radar;
+package radar;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
