@@ -70,6 +70,15 @@ public class RadarProcessor extends AbstractProcessor {
 
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+    for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(ViewHolder.class)) {
+      try {
+        parseViewHolderElement(annotatedElement);
+      } catch (ValidationException e) {
+        Logger.error(annotatedElement, e.getLocalizedMessage());
+        return true;
+      }
+    }
+
     return false;
   }
 

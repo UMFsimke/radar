@@ -2,6 +2,8 @@ package com.simicaleksandar.radar;
 
 import android.support.annotation.LayoutRes;
 
+import com.simicaleksandar.radar.validation.ValidationException;
+
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 
@@ -11,7 +13,8 @@ public class ViewHolderAnnotatedClass extends AnnotatedClass {
 
   private @LayoutRes int layoutId;
 
-  public ViewHolderAnnotatedClass(Element element) throws IllegalArgumentException {
+  public ViewHolderAnnotatedClass(Element element) throws
+          IllegalArgumentException, ValidationException {
     super(element);
     validate();
   }
