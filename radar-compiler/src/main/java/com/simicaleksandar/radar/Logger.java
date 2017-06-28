@@ -23,7 +23,7 @@ class Logger {
   }
 
   public static void error(Element e, String errorMsg) {
-    instance.error(e, errorMsg);
+    instance.logError(e, errorMsg);
   }
 
   private void logError(Element e, String errorMsg) {

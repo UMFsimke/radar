@@ -41,7 +41,7 @@ public class ViewHolderAnnotatedClass extends AnnotatedClass {
     if (layoutId != 0) return;
 
     throw new IllegalArgumentException(
-            String.format("Layout resource id has to be defined for a view holder @%s",
+            String.format("Layout resource id has to be defined for a view holder at @%s",
                     qualifiedClassName));
   }
 

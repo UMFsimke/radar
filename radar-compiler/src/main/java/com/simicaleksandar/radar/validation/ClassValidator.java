@@ -43,11 +43,16 @@ public abstract class ClassValidator<T extends AnnotatedClass> extends ElementVa
         TypeElement currentClass = element.getAnnotatedClassElement();
         TypeMirror interfaceTypeMirror = elementUtils.getTypeElement(interfaceClass.getName())
                 .asType();
-
+        TypeMirror strippedGenericInterface = typeUtils.erasure(interfaceTypeMirror);
         while (true) {
             TypeMirror superClassType = currentClass.getSuperclass();
-            if (currentClass.getInterfaces().contains(interfaceTypeMirror)) {
-                return;
+            for (TypeMirror implementedInterface : currentClass.getInterfaces()) {
+                TypeMirror strippedGenericImplementedInterface =
+                        typeUtils.erasure(implementedInterface);
+                if (typeUtils.isSameType(
+                        strippedGenericImplementedInterface, strippedGenericInterface)) {
+                    return;
+                }
             }
 
             if (superClassType.getKind() == TypeKind.NONE) {
@@ -59,7 +64,7 @@ public abstract class ClassValidator<T extends AnnotatedClass> extends ElementVa
 
         throw new ValidationException("The class %s annotated with @%s must implement the interface %s",
                 element.getSimpleTypeName(), annotation.getSimpleName(),
-                interfaceTypeMirror.getClass().getSimpleName());
+                interfaceClass.getCanonicalName());
     }
 
     protected void ensureHasEmptyConstructor(T element) throws ValidationException {

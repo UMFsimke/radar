@@ -26,17 +26,8 @@ public abstract class AnnotatedClass extends AnnotatedElement {
     }
 
     protected void readRequiredInfo() {
-        try {
-      /*it may happen that class is already compiled if its used in a library and then we just
-      need to read it from binary
-       */
-            Class<?> clazz = annotatedClassElement.getClass();
-            qualifiedClassName = clazz.getCanonicalName();
-            simpleTypeName = clazz.getSimpleName();
-        } catch (MirroredTypeException mte) {
-            qualifiedClassName = annotatedClassElement.getQualifiedName().toString();
-            simpleTypeName = annotatedClassElement.getSimpleName().toString();
-        }
+       qualifiedClassName = annotatedClassElement.getQualifiedName().toString();
+       simpleTypeName = annotatedClassElement.getSimpleName().toString();
     }
 
     /**
