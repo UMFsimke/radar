@@ -1,11 +1,10 @@
-package com.simicaleksandar.radar;
+package com.simicaleksandar.radar.model;
 
 import android.support.annotation.LayoutRes;
 
-import com.simicaleksandar.radar.validation.ValidationException;
+import com.simicaleksandar.radar.exceptions.ValidationException;
 
 import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
 
 import radar.ViewHolder;
 
@@ -19,6 +18,12 @@ public class ViewHolderAnnotatedClass extends AnnotatedClass {
     validate();
   }
 
+  @Override
+  String getKindNotAllowedError() {
+    return String.format("Only classes can be annotated with @%s",
+            ViewHolder.class.getSimpleName());
+  }
+
   /**
    * Reads required data from class element for a class that is annotated with
    * {@link ViewHolder} annotation.
@@ -26,7 +31,7 @@ public class ViewHolderAnnotatedClass extends AnnotatedClass {
   @Override
   protected void readRequiredInfo() {
     super.readRequiredInfo();
-    ViewHolder annotation = annotatedClassElement.getAnnotation(ViewHolder.class);
+    ViewHolder annotation = annotatedElement.getAnnotation(ViewHolder.class);
     layoutId = annotation.layoutId();
   }
 
@@ -42,7 +47,7 @@ public class ViewHolderAnnotatedClass extends AnnotatedClass {
 
     throw new IllegalArgumentException(
             String.format("Layout resource id has to be defined for a view holder at @%s",
-                    qualifiedClassName));
+                    qualifiedName));
   }
 
   /**

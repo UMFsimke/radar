@@ -1,8 +1,10 @@
 package com.simicaleksandar.radar;
 
-import com.google.auto.common.SuperficialValidation;
 import com.google.auto.service.AutoService;
-import com.simicaleksandar.radar.validation.ValidationException;
+import com.simicaleksandar.radar.model.RecyclerViewAdapterAnnotatedMethod;
+import com.simicaleksandar.radar.model.ViewHolderAnnotatedClass;
+import com.simicaleksandar.radar.model.ViewHolderGroupedClasses;
+import com.simicaleksandar.radar.exceptions.ValidationException;
 import com.simicaleksandar.radar.validation.Validator;
 
 import java.lang.annotation.Annotation;
@@ -16,8 +18,6 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -26,15 +26,13 @@ import radar.AdapterFactory;
 import radar.RecyclerViewAdapter;
 import radar.ViewHolder;
 
-import static javax.lang.model.element.Modifier.ABSTRACT;
-import static javax.lang.model.element.Modifier.PRIVATE;
-
 @AutoService(Processor.class)
 public class RadarProcessor extends AbstractProcessor {
 
   private Types typeUtils;
   private Elements elementUtils;
   private Filer filer;
+  private ViewHolderGroupedClasses viewHolderGroupedClasses;
 
   @Override
   public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -70,16 +68,29 @@ public class RadarProcessor extends AbstractProcessor {
 
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+    boolean hasErrors = processViewHoldersAnnotations(roundEnv);
+    if (hasErrors) return true;
+
+    hasErrors = processRecyclerViewAdapterAnnotations(roundEnv);
+    if (hasErrors) return true;
+
+    return false;
+  }
+
+  private boolean processViewHoldersAnnotations(RoundEnvironment roundEnv) {
+    boolean hasErrors = false;
+    viewHolderGroupedClasses = new ViewHolderGroupedClasses();
     for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(ViewHolder.class)) {
       try {
-        parseViewHolderElement(annotatedElement);
+        ViewHolderAnnotatedClass annotatedViewHolder = parseViewHolderElement(annotatedElement);
+        viewHolderGroupedClasses.add(annotatedViewHolder);
       } catch (ValidationException e) {
         Logger.error(annotatedElement, e.getLocalizedMessage());
-        return true;
+        hasErrors = true;
       }
     }
 
-    return false;
+    return hasErrors;
   }
 
   private ViewHolderAnnotatedClass parseViewHolderElement(Element annotatedElement) throws
@@ -88,5 +99,28 @@ public class RadarProcessor extends AbstractProcessor {
             ViewHolderAnnotatedClass(annotatedElement);
     Validator.newInstance(elementUtils, typeUtils).validate(viewHolderAnnotatedClass);
     return viewHolderAnnotatedClass;
+  }
+
+  private boolean processRecyclerViewAdapterAnnotations(RoundEnvironment roundEnv) {
+    boolean hasErrors = false;
+    for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(RecyclerViewAdapter.class)) {
+      try {
+        RecyclerViewAdapterAnnotatedMethod annotatedMethod = parseViewHolderElement(annotatedElement);
+        viewHolderGroupedClasses.add(annotatedViewHolder);
+      } catch (ValidationException e) {
+        Logger.error(annotatedElement, e.getLocalizedMessage());
+        hasErrors = true;
+      }
+    }
+
+    return hasErrors;
+  }
+
+  private RecyclerViewAdapterAnnotatedMethod parseRecyclerViewAdapterElement(Element annotatedElement) throws
+          ValidationException {
+    RecyclerViewAdapterAnnotatedMethod annotatedMethod = new
+            RecyclerViewAdapterAnnotatedMethod(annotatedElement);
+    Validator.newInstance(elementUtils, typeUtils).validate(annotatedMethod);
+    return annotatedMethod;
   }
 }

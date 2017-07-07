@@ -1,6 +1,7 @@
 package com.simicaleksandar.radar.validation;
 
-import com.simicaleksandar.radar.AnnotatedClass;
+import com.simicaleksandar.radar.exceptions.ValidationException;
+import com.simicaleksandar.radar.model.AnnotatedClass;
 
 import java.util.Set;
 
@@ -39,7 +40,6 @@ public abstract class ClassValidator<T extends AnnotatedClass> extends ElementVa
     protected void ensureIsImplementingInterface(T element, Class<?> interfaceClass,
                                                  Class<?> annotation)
             throws ValidationException {
-        // Check inheritance: Class must be childclass as specified in @Factory.type();
         TypeElement currentClass = element.getAnnotatedClassElement();
         TypeMirror interfaceTypeMirror = elementUtils.getTypeElement(interfaceClass.getName())
                 .asType();

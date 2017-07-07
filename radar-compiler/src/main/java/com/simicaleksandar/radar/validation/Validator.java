@@ -1,8 +1,10 @@
 package com.simicaleksandar.radar.validation;
 
 
-import com.simicaleksandar.radar.AnnotatedElement;
-import com.simicaleksandar.radar.ViewHolderAnnotatedClass;
+import com.simicaleksandar.radar.exceptions.ValidationException;
+import com.simicaleksandar.radar.model.AnnotatedElement;
+import com.simicaleksandar.radar.model.RecyclerViewAdapterAnnotatedMethod;
+import com.simicaleksandar.radar.model.ViewHolderAnnotatedClass;
 
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -37,11 +39,21 @@ public class Validator {
                 ViewHolderAnnotatedClass viewHolderAnnotatedClass = annotatedElement.getElement();
                 validateViewHolder(viewHolderAnnotatedClass);
                 return;
+            case ADAPTER_PROVIDER:
+                RecyclerViewAdapterAnnotatedMethod annotatedMethod = annotatedElement.getElement();
+                validateRecyclerViewAdapterMethod(annotatedMethod);
+                return;
         }
     }
 
     private void validateViewHolder(ViewHolderAnnotatedClass annotatedClass) throws
             ValidationException {
         ViewHolderValidator.getInstance(elementUtils, typeUtils).validate(annotatedClass);
+    }
+
+    private void validateRecyclerViewAdapterMethod(
+            RecyclerViewAdapterAnnotatedMethod annotatedMethod) {
+        RecyclerViewAdapterValidator.getInstance(elementUtils, typeUtils, )
+                .validate(annotatedMethod);
     }
 }

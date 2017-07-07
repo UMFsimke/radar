@@ -1,4 +1,4 @@
-package com.simicaleksandar.radar.validation;
+package com.simicaleksandar.radar.exceptions;
 
 public class ValidationException extends Exception {
 

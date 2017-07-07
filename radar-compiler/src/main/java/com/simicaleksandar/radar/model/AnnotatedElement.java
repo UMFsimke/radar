@@ -1,4 +1,4 @@
-package com.simicaleksandar.radar;
+package com.simicaleksandar.radar.model;
 
 public abstract class AnnotatedElement {
 
