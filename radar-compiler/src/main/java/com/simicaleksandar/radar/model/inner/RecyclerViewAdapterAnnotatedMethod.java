@@ -1,6 +1,7 @@
-package com.simicaleksandar.radar.model;
+package com.simicaleksandar.radar.model.inner;
 
 import com.simicaleksandar.radar.exceptions.ValidationException;
+import com.simicaleksandar.radar.model.java.AnnotatedMethod;
 
 import javax.lang.model.element.Element;
 

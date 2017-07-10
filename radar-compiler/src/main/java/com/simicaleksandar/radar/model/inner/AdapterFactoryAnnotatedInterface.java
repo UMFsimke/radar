@@ -1,6 +1,7 @@
-package com.simicaleksandar.radar.model;
+package com.simicaleksandar.radar.model.inner;
 
 import com.simicaleksandar.radar.exceptions.ValidationException;
+import com.simicaleksandar.radar.model.java.AnnotatedInterface;
 
 import javax.lang.model.element.Element;
 
@@ -14,7 +15,7 @@ public class AdapterFactoryAnnotatedInterface extends AnnotatedInterface {
     }
 
     @Override
-    String getKindNotAllowedError() {
+    protected String getKindNotAllowedError() {
         return String.format("Only interfaces can be annotated with @%s",
                 AdapterFactory.class.getSimpleName());
     }

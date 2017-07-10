@@ -1,4 +1,4 @@
-package com.simicaleksandar.radar.model;
+package com.simicaleksandar.radar.model.java;
 
 import com.simicaleksandar.radar.exceptions.ValidationException;
 

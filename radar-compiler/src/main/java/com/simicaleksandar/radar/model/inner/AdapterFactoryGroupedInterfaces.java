@@ -1,11 +1,10 @@
-package com.simicaleksandar.radar.model;
+package com.simicaleksandar.radar.model.inner;
 
 import com.simicaleksandar.radar.exceptions.QualifiedNameAlreadyUsedException;
+import com.simicaleksandar.radar.model.inner.AdapterFactoryAnnotatedInterface;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import javax.lang.model.element.TypeElement;
 
 public class AdapterFactoryGroupedInterfaces {
 
@@ -14,10 +13,11 @@ public class AdapterFactoryGroupedInterfaces {
 
     public AdapterFactoryGroupedInterfaces(String qualifiedClassName) {
         this.qualifiedClassName = qualifiedClassName;
-        itemsMap = new LinkedHashMap<String, AdapterFactoryAnnotatedInterface>();
+        itemsMap = new LinkedHashMap<>();
     }
 
-    public void add(AdapterFactoryAnnotatedInterface toInsert) throws QualifiedNameAlreadyUsedException {
+    public void add(AdapterFactoryAnnotatedInterface toInsert) throws
+            QualifiedNameAlreadyUsedException {
         AdapterFactoryAnnotatedInterface existing = itemsMap.get(toInsert.getQualifiedName());
         if (existing != null) {
             throw new QualifiedNameAlreadyUsedException(existing);
@@ -26,9 +26,7 @@ public class AdapterFactoryGroupedInterfaces {
         itemsMap.put(toInsert.getQualifiedName(), toInsert);
     }
 
-    public void ensureExists(TypeElement element) {
-        AdapterFactoryAnnotatedInterface adapterFactoryAnnotatedInterface =
-                new AdapterFactoryAnnotatedInterface(element);
-        if (adapterFactoryAnnotatedInterface.)
+    public boolean doesExists(AdapterFactoryAnnotatedInterface interfaceToCheck) {
+        return itemsMap != null && itemsMap.containsKey(interfaceToCheck.getQualifiedName());
     }
 }

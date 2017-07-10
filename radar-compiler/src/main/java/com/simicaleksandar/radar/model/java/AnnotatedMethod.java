@@ -1,6 +1,7 @@
-package com.simicaleksandar.radar.model;
+package com.simicaleksandar.radar.model.java;
 
 import com.simicaleksandar.radar.exceptions.ValidationException;
+import com.simicaleksandar.radar.model.AnnotatedElement;
 
 import java.util.List;
 

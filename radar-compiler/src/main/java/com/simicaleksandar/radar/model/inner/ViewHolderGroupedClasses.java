@@ -1,6 +1,6 @@
-package com.simicaleksandar.radar.model;
+package com.simicaleksandar.radar.model.inner;
 
-import com.simicaleksandar.radar.model.ViewHolderAnnotatedClass;
+import com.simicaleksandar.radar.model.inner.ViewHolderAnnotatedClass;
 
 import java.util.ArrayList;
 import java.util.List;

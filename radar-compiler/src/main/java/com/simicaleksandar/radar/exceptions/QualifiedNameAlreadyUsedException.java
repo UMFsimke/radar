@@ -1,6 +1,6 @@
 package com.simicaleksandar.radar.exceptions;
 
-import com.simicaleksandar.radar.model.AnnotatedType;
+import com.simicaleksandar.radar.model.java.AnnotatedType;
 
 public class QualifiedNameAlreadyUsedException extends Exception {
 

@@ -1,8 +1,9 @@
-package com.simicaleksandar.radar.model;
+package com.simicaleksandar.radar.model.inner;
 
 import android.support.annotation.LayoutRes;
 
 import com.simicaleksandar.radar.exceptions.ValidationException;
+import com.simicaleksandar.radar.model.java.AnnotatedClass;
 
 import javax.lang.model.element.Element;
 
@@ -19,7 +20,7 @@ public class ViewHolderAnnotatedClass extends AnnotatedClass {
   }
 
   @Override
-  String getKindNotAllowedError() {
+  protected String getKindNotAllowedError() {
     return String.format("Only classes can be annotated with @%s",
             ViewHolder.class.getSimpleName());
   }

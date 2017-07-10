@@ -2,9 +2,10 @@ package com.simicaleksandar.radar.validation;
 
 
 import com.simicaleksandar.radar.exceptions.ValidationException;
+import com.simicaleksandar.radar.model.inner.AdapterFactoryAnnotatedInterface;
 import com.simicaleksandar.radar.model.AnnotatedElement;
-import com.simicaleksandar.radar.model.RecyclerViewAdapterAnnotatedMethod;
-import com.simicaleksandar.radar.model.ViewHolderAnnotatedClass;
+import com.simicaleksandar.radar.model.inner.RecyclerViewAdapterAnnotatedMethod;
+import com.simicaleksandar.radar.model.inner.ViewHolderAnnotatedClass;
 
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -39,10 +40,16 @@ public class Validator {
                 ViewHolderAnnotatedClass viewHolderAnnotatedClass = annotatedElement.getElement();
                 validateViewHolder(viewHolderAnnotatedClass);
                 return;
+            case ADAPTER_FACTORY:
+                AdapterFactoryAnnotatedInterface annotatedInterface = annotatedElement.getElement();
+                validateAdapterFactory(annotatedInterface);
+                return;
             case ADAPTER_PROVIDER:
                 RecyclerViewAdapterAnnotatedMethod annotatedMethod = annotatedElement.getElement();
                 validateRecyclerViewAdapterMethod(annotatedMethod);
                 return;
+            default:
+                throw new IllegalArgumentException("Validation for given annotation is not implemented");
         }
     }
 
@@ -53,7 +60,12 @@ public class Validator {
 
     private void validateRecyclerViewAdapterMethod(
             RecyclerViewAdapterAnnotatedMethod annotatedMethod) {
-        RecyclerViewAdapterValidator.getInstance(elementUtils, typeUtils, )
-                .validate(annotatedMethod);
+        /*RecyclerViewAdapterValidator.getInstance(elementUtils, typeUtils, )
+                .validate(annotatedMethod);*/
+    }
+
+    private void validateAdapterFactory(AdapterFactoryAnnotatedInterface annotatedInterface) throws
+            ValidationException {
+        AdapterFactoryValidator.getInstance().validate(annotatedInterface);
     }
 }

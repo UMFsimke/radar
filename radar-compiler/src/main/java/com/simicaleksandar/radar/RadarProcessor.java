@@ -1,9 +1,12 @@
 package com.simicaleksandar.radar;
 
 import com.google.auto.service.AutoService;
-import com.simicaleksandar.radar.model.RecyclerViewAdapterAnnotatedMethod;
-import com.simicaleksandar.radar.model.ViewHolderAnnotatedClass;
-import com.simicaleksandar.radar.model.ViewHolderGroupedClasses;
+import com.simicaleksandar.radar.exceptions.QualifiedNameAlreadyUsedException;
+import com.simicaleksandar.radar.model.inner.AdapterFactoryAnnotatedInterface;
+import com.simicaleksandar.radar.model.inner.AdapterFactoryGroupedInterfaces;
+import com.simicaleksandar.radar.model.inner.RecyclerViewAdapterAnnotatedMethod;
+import com.simicaleksandar.radar.model.inner.ViewHolderAnnotatedClass;
+import com.simicaleksandar.radar.model.inner.ViewHolderGroupedClasses;
 import com.simicaleksandar.radar.exceptions.ValidationException;
 import com.simicaleksandar.radar.validation.Validator;
 
@@ -33,6 +36,7 @@ public class RadarProcessor extends AbstractProcessor {
   private Elements elementUtils;
   private Filer filer;
   private ViewHolderGroupedClasses viewHolderGroupedClasses;
+  private AdapterFactoryGroupedInterfaces adapterFactoryGroupedInterfaces;
 
   @Override
   public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -74,12 +78,15 @@ public class RadarProcessor extends AbstractProcessor {
     hasErrors = processRecyclerViewAdapterAnnotations(roundEnv);
     if (hasErrors) return true;
 
+    hasErrors = processAdapterFactoryAnnotations(roundEnv);
+    if (hasErrors) return true;
+
     return false;
   }
 
   private boolean processViewHoldersAnnotations(RoundEnvironment roundEnv) {
     boolean hasErrors = false;
-    viewHolderGroupedClasses = new ViewHolderGroupedClasses();
+    viewHolderGroupedClasses = new ViewHolderGroupedClasses("");
     for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(ViewHolder.class)) {
       try {
         ViewHolderAnnotatedClass annotatedViewHolder = parseViewHolderElement(annotatedElement);
@@ -103,7 +110,7 @@ public class RadarProcessor extends AbstractProcessor {
 
   private boolean processRecyclerViewAdapterAnnotations(RoundEnvironment roundEnv) {
     boolean hasErrors = false;
-    for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(RecyclerViewAdapter.class)) {
+    /*for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(RecyclerViewAdapter.class)) {
       try {
         RecyclerViewAdapterAnnotatedMethod annotatedMethod = parseViewHolderElement(annotatedElement);
         viewHolderGroupedClasses.add(annotatedViewHolder);
@@ -111,7 +118,7 @@ public class RadarProcessor extends AbstractProcessor {
         Logger.error(annotatedElement, e.getLocalizedMessage());
         hasErrors = true;
       }
-    }
+    }*/
 
     return hasErrors;
   }
@@ -122,5 +129,30 @@ public class RadarProcessor extends AbstractProcessor {
             RecyclerViewAdapterAnnotatedMethod(annotatedElement);
     Validator.newInstance(elementUtils, typeUtils).validate(annotatedMethod);
     return annotatedMethod;
+  }
+
+  private boolean processAdapterFactoryAnnotations(RoundEnvironment roundEnv) {
+    boolean hasErrors = false;
+    adapterFactoryGroupedInterfaces = new AdapterFactoryGroupedInterfaces("");
+    for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(AdapterFactory.class)) {
+      try {
+        AdapterFactoryAnnotatedInterface annotatedAdapterFactory =
+                parseAdapterFactoryElement(annotatedElement);
+        adapterFactoryGroupedInterfaces.add(annotatedAdapterFactory);
+      } catch (ValidationException | QualifiedNameAlreadyUsedException e) {
+        Logger.error(annotatedElement, e.getLocalizedMessage());
+        hasErrors = true;
+      }
+    }
+
+    return hasErrors;
+  }
+
+  private AdapterFactoryAnnotatedInterface parseAdapterFactoryElement(Element annotatedElement) throws
+          ValidationException {
+    AdapterFactoryAnnotatedInterface adapterFactoryAnnotatedInterface = new
+            AdapterFactoryAnnotatedInterface(annotatedElement);
+    Validator.newInstance(elementUtils, typeUtils).validate(adapterFactoryAnnotatedInterface);
+    return adapterFactoryAnnotatedInterface;
   }
 }

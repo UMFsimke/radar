@@ -1,7 +1,7 @@
 package com.simicaleksandar.radar.validation;
 
 import com.simicaleksandar.radar.exceptions.ValidationException;
-import com.simicaleksandar.radar.model.AnnotatedMethod;
+import com.simicaleksandar.radar.model.java.AnnotatedMethod;
 
 import java.util.Set;
 

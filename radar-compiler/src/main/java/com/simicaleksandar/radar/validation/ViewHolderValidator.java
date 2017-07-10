@@ -1,7 +1,7 @@
 package com.simicaleksandar.radar.validation;
 
 import com.simicaleksandar.radar.exceptions.ValidationException;
-import com.simicaleksandar.radar.model.ViewHolderAnnotatedClass;
+import com.simicaleksandar.radar.model.inner.ViewHolderAnnotatedClass;
 
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;

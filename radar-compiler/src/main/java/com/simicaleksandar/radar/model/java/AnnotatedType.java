@@ -1,6 +1,7 @@
-package com.simicaleksandar.radar.model;
+package com.simicaleksandar.radar.model.java;
 
 import com.simicaleksandar.radar.exceptions.ValidationException;
+import com.simicaleksandar.radar.model.AnnotatedElement;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -21,7 +22,7 @@ public abstract class AnnotatedType extends AnnotatedElement {
         readRequiredInfo();
     }
 
-    abstract String getKindNotAllowedError();
+    protected abstract String getKindNotAllowedError();
 
     protected void readRequiredInfo() {
         qualifiedName = annotatedElement.getQualifiedName().toString();

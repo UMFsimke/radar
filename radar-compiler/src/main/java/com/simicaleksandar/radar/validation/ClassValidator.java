@@ -1,7 +1,7 @@
 package com.simicaleksandar.radar.validation;
 
 import com.simicaleksandar.radar.exceptions.ValidationException;
-import com.simicaleksandar.radar.model.AnnotatedClass;
+import com.simicaleksandar.radar.model.java.AnnotatedClass;
 
 import java.util.Set;
 
@@ -18,7 +18,7 @@ import javax.lang.model.util.Types;
 import static javax.lang.model.element.Modifier.ABSTRACT;
 import static javax.lang.model.element.Modifier.PUBLIC;
 
-public abstract class ClassValidator<T extends AnnotatedClass> extends ElementValidator<T> {
+public abstract class ClassValidator<T extends AnnotatedClass> extends TypeValidator<T> {
 
     private Elements elementUtils;
     private Types typeUtils;
@@ -28,19 +28,10 @@ public abstract class ClassValidator<T extends AnnotatedClass> extends ElementVa
         this.typeUtils = typeUtils;
     }
 
-    protected void ensureIsAccessibleInGeneratedCode(T annotatedElement, Class<?> annotation)
-            throws ValidationException {
-        Set<Modifier> modifiers = annotatedElement.getAnnotatedClassElement().getModifiers();
-        if (modifiers.contains(PUBLIC) && !modifiers.contains(ABSTRACT)) return;
-
-        throw new ValidationException("Class %s annotated with @%s must not be private, protected" +
-                " or abstract.", annotatedElement.getSimpleTypeName(), annotation.getSimpleName());
-    }
-
     protected void ensureIsImplementingInterface(T element, Class<?> interfaceClass,
                                                  Class<?> annotation)
             throws ValidationException {
-        TypeElement currentClass = element.getAnnotatedClassElement();
+        TypeElement currentClass = element.getAnnotatedElement();
         TypeMirror interfaceTypeMirror = elementUtils.getTypeElement(interfaceClass.getName())
                 .asType();
         TypeMirror strippedGenericInterface = typeUtils.erasure(interfaceTypeMirror);
@@ -68,7 +59,7 @@ public abstract class ClassValidator<T extends AnnotatedClass> extends ElementVa
     }
 
     protected void ensureHasEmptyConstructor(T element) throws ValidationException {
-        for (Element enclosed : element.getAnnotatedClassElement().getEnclosedElements()) {
+        for (Element enclosed : element.getAnnotatedElement().getEnclosedElements()) {
             if (enclosed.getKind() != ElementKind.CONSTRUCTOR) continue;
 
             ExecutableElement constructorElement = (ExecutableElement) enclosed;
@@ -79,6 +70,6 @@ public abstract class ClassValidator<T extends AnnotatedClass> extends ElementVa
         }
 
         throw new ValidationException("The class %s must provide an public empty default constructor",
-                element.getQualifiedClassName());
+                element.getQualifiedName());
     }
 }

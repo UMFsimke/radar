@@ -1,8 +1,8 @@
 package com.simicaleksandar.radar.validation;
 
 import com.simicaleksandar.radar.exceptions.ValidationException;
-import com.simicaleksandar.radar.model.RecyclerViewAdapterAnnotatedMethod;
-import com.simicaleksandar.radar.model.ViewHolderGroupedClasses;
+import com.simicaleksandar.radar.model.inner.RecyclerViewAdapterAnnotatedMethod;
+import com.simicaleksandar.radar.model.inner.ViewHolderGroupedClasses;
 
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -53,7 +53,7 @@ public class RecyclerViewAdapterValidator extends
         ensureIsAccessibleInGeneratedCode(element, AdapterFactory.class);
         ensureHasNoParameters(element);
         ensureReturnTypeMatches(element, RadarAdapter.class);
-        adapterFactoryGroupedClasses.ensureExists(element.getEnclosingClassElement());
-        viewHolderGroupedClasses.ensureAllExist(element.getAnnotatedViewHolders());
+        /*adapterFactoryGroupedClasses.ensureExists(element.getEnclosingClassElement());
+        viewHolderGroupedClasses.ensureAllExist(element.getAnnotatedViewHolders());*/
     }
 }
