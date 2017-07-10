@@ -110,23 +110,24 @@ public class RadarProcessor extends AbstractProcessor {
 
   private boolean processRecyclerViewAdapterAnnotations(RoundEnvironment roundEnv) {
     boolean hasErrors = false;
-    /*for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(RecyclerViewAdapter.class)) {
+    for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(RecyclerViewAdapter.class)) {
       try {
-        RecyclerViewAdapterAnnotatedMethod annotatedMethod = parseViewHolderElement(annotatedElement);
-        viewHolderGroupedClasses.add(annotatedViewHolder);
+        RecyclerViewAdapterAnnotatedMethod annotatedMethod =
+                parseRecyclerViewAdapterElement(annotatedElement);
+        //viewHolderGroupedClasses.add(annotatedMethod);
       } catch (ValidationException e) {
         Logger.error(annotatedElement, e.getLocalizedMessage());
         hasErrors = true;
       }
-    }*/
+    }
 
     return hasErrors;
   }
 
-  private RecyclerViewAdapterAnnotatedMethod parseRecyclerViewAdapterElement(Element annotatedElement) throws
-          ValidationException {
+  private RecyclerViewAdapterAnnotatedMethod parseRecyclerViewAdapterElement(
+          Element annotatedElement) throws ValidationException {
     RecyclerViewAdapterAnnotatedMethod annotatedMethod = new
-            RecyclerViewAdapterAnnotatedMethod(annotatedElement);
+            RecyclerViewAdapterAnnotatedMethod(annotatedElement, elementUtils);
     Validator.newInstance(elementUtils, typeUtils).validate(annotatedMethod);
     return annotatedMethod;
   }

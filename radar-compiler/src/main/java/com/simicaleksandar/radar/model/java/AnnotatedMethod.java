@@ -10,6 +10,7 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.util.Elements;
 
 import radar.RecyclerViewAdapter;
 
@@ -19,14 +20,17 @@ public abstract class AnnotatedMethod extends AnnotatedElement {
     protected List<? extends VariableElement> parameters;
     protected ExecutableElement annotatedMethodElement;
     protected TypeElement enclosingClassElement;
+    protected Elements elementUtils;
 
-    public AnnotatedMethod(Element element) throws IllegalArgumentException, ValidationException {
+    public AnnotatedMethod(Element element, Elements elementUtils) throws
+            IllegalArgumentException, ValidationException {
         if (!(element instanceof ExecutableElement) || element.getKind() != ElementKind.METHOD) {
             throw new ValidationException(String.format("Only classes can be annotated with @%s",
                     RecyclerViewAdapter.class.getSimpleName()));
         }
 
         annotatedMethodElement = (ExecutableElement) element;
+        this.elementUtils = elementUtils;
         readRequiredInfo();
     }
 

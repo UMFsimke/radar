@@ -32,13 +32,16 @@ final class ViewHolderValidator extends ClassValidator<ViewHolderAnnotatedClass>
    *     <li>Can't be abstract</li>
    *     <li>Must implement or be subclass of superclass that implements {@link RadarViewHolder}</li>
    *     <li>Must have empty constructor</li>
+   *     <li>Can't be enclosed</li>
    * </ul>
    * @param element
    * @throws ValidationException
    */
+  //TODO: should we allow enclosing of view holder? if so, it should be static as we don't want to allow variables of outside class to be accessed
   @Override
   public void validate(ViewHolderAnnotatedClass element) throws ValidationException {
     ensureIsAccessibleInGeneratedCode(element, ViewHolder.class);
+    ensureIsNotEnclosed(element);
     ensureIsImplementingInterface(element, RadarViewHolder.class, ViewHolder.class);
     ensureHasEmptyConstructor(element);
   }

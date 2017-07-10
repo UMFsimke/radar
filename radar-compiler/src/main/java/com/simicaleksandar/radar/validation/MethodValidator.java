@@ -3,16 +3,9 @@ package com.simicaleksandar.radar.validation;
 import com.simicaleksandar.radar.exceptions.ValidationException;
 import com.simicaleksandar.radar.model.java.AnnotatedMethod;
 
-import java.util.Set;
-
-import javax.lang.model.element.Modifier;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
-
-import static javax.lang.model.element.Modifier.ABSTRACT;
-import static javax.lang.model.element.Modifier.PUBLIC;
-import static javax.lang.model.element.Modifier.STATIC;
 
 public abstract class MethodValidator<T extends AnnotatedMethod> extends ElementValidator<T> {
 
@@ -22,17 +15,6 @@ public abstract class MethodValidator<T extends AnnotatedMethod> extends Element
     protected MethodValidator(Elements elementUtils, Types typeUtils) {
         this.elementUtils = elementUtils;
         this.typeUtils = typeUtils;
-    }
-
-    protected void ensureIsAccessibleInGeneratedCode(T annotatedElement, Class<?> annotation)
-            throws ValidationException {
-        Set<Modifier> modifiers = annotatedElement.getAnnotatedMethodElement().getModifiers();
-        if (modifiers.contains(PUBLIC) && !modifiers.contains(ABSTRACT)
-                && !modifiers.contains(STATIC)) return;
-
-        throw new ValidationException("Method %s, at %s, annotated with @%s " +
-                "must not be private, protected or abstract.",
-                annotatedElement.getMethodName(), annotation.getSimpleName());
     }
 
     protected void ensureReturnTypeMatches(T annotatedElement, Class<?> returnClass) throws

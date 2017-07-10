@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 @Retention(CLASS)
 @Target(METHOD)
 public @interface RecyclerViewAdapter {
-  Class<?>[] viewHolders() default {};
+  Class<?>[] viewHolders();
 }

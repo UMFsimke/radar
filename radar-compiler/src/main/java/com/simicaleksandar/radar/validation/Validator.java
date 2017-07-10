@@ -59,9 +59,8 @@ public class Validator {
     }
 
     private void validateRecyclerViewAdapterMethod(
-            RecyclerViewAdapterAnnotatedMethod annotatedMethod) {
-        /*RecyclerViewAdapterValidator.getInstance(elementUtils, typeUtils, )
-                .validate(annotatedMethod);*/
+            RecyclerViewAdapterAnnotatedMethod annotatedMethod) throws ValidationException {
+        RecyclerViewAdapterValidator.getInstance(elementUtils, typeUtils).validate(annotatedMethod);
     }
 
     private void validateAdapterFactory(AdapterFactoryAnnotatedInterface annotatedInterface) throws
