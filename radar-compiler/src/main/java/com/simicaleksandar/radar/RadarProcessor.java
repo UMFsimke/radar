@@ -1,10 +1,12 @@
 package com.simicaleksandar.radar;
 
 import com.google.auto.service.AutoService;
+import com.simicaleksandar.radar.exceptions.MethodNameAlreadyUsedException;
 import com.simicaleksandar.radar.exceptions.QualifiedNameAlreadyUsedException;
 import com.simicaleksandar.radar.model.inner.AdapterFactoryAnnotatedInterface;
 import com.simicaleksandar.radar.model.inner.AdapterFactoryGroupedInterfaces;
 import com.simicaleksandar.radar.model.inner.RecyclerViewAdapterAnnotatedMethod;
+import com.simicaleksandar.radar.model.inner.RecyclerViewAdapterGroupedMethods;
 import com.simicaleksandar.radar.model.inner.ViewHolderAnnotatedClass;
 import com.simicaleksandar.radar.model.inner.ViewHolderGroupedClasses;
 import com.simicaleksandar.radar.exceptions.ValidationException;
@@ -37,6 +39,7 @@ public class RadarProcessor extends AbstractProcessor {
   private Filer filer;
   private ViewHolderGroupedClasses viewHolderGroupedClasses;
   private AdapterFactoryGroupedInterfaces adapterFactoryGroupedInterfaces;
+  private RecyclerViewAdapterGroupedMethods recyclerViewAdapterGroupedMethods;
 
   @Override
   public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -110,12 +113,13 @@ public class RadarProcessor extends AbstractProcessor {
 
   private boolean processRecyclerViewAdapterAnnotations(RoundEnvironment roundEnv) {
     boolean hasErrors = false;
+    recyclerViewAdapterGroupedMethods = new RecyclerViewAdapterGroupedMethods("");
     for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(RecyclerViewAdapter.class)) {
       try {
         RecyclerViewAdapterAnnotatedMethod annotatedMethod =
                 parseRecyclerViewAdapterElement(annotatedElement);
-        //viewHolderGroupedClasses.add(annotatedMethod);
-      } catch (ValidationException e) {
+        recyclerViewAdapterGroupedMethods.add(annotatedMethod);
+      } catch (ValidationException | MethodNameAlreadyUsedException e) {
         Logger.error(annotatedElement, e.getLocalizedMessage());
         hasErrors = true;
       }

@@ -8,8 +8,8 @@ import radar.RadarAdapter;
 import radar.RecyclerViewAdapter;
 
 @AdapterFactory
-public interface AdaptersComponent {
+public interface Factory {
 
     @RecyclerViewAdapter(viewHolders = {DogViewHolder.class, GeckoViewHolder.class})
-    RadarAdapter a();
+    RadarAdapter b();
 }

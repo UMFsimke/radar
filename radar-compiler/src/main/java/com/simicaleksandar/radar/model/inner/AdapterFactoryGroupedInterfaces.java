@@ -1,7 +1,6 @@
 package com.simicaleksandar.radar.model.inner;
 
 import com.simicaleksandar.radar.exceptions.QualifiedNameAlreadyUsedException;
-import com.simicaleksandar.radar.model.inner.AdapterFactoryAnnotatedInterface;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,9 +23,5 @@ public class AdapterFactoryGroupedInterfaces {
         }
 
         itemsMap.put(toInsert.getQualifiedName(), toInsert);
-    }
-
-    public boolean doesExists(AdapterFactoryAnnotatedInterface interfaceToCheck) {
-        return itemsMap != null && itemsMap.containsKey(interfaceToCheck.getQualifiedName());
     }
 }
