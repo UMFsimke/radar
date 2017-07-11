@@ -22,4 +22,8 @@ public class ViewHolderGroupedClasses {
 
         annotatedClassList.add(annotatedClass);
     }
+
+    public List<ViewHolderAnnotatedClass> getAnnotatedClassList() {
+        return annotatedClassList;
+    }
 }
