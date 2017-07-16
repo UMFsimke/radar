@@ -38,8 +38,7 @@ public abstract class RecyclerViewAdapterDelegate<T extends DisplayableItem> ext
   protected ViewHolder onCreateViewHolder(ViewGroup parent) {
     View itemView = layoutInflaterManager.inflate(layoutId, parent, false);
     RadarViewHolder<T> viewHolderDelegate = getViewHolderDelegate();
-    BaseViewHolder<T> viewHolder = new BaseViewHolder<>(itemView, viewHolderDelegate);
-    return viewHolder;
+    return new BaseViewHolder<>(itemView, viewHolderDelegate);
   }
 
   protected abstract RadarViewHolder<T> getViewHolderDelegate();

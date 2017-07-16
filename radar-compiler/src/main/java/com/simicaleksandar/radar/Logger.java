@@ -29,4 +29,12 @@ class Logger {
   private void logError(Element e, String errorMsg) {
     messager.printMessage(Diagnostic.Kind.ERROR, errorMsg, e);
   }
+
+  public static void error(String errorMsg) {
+    instance.logError(errorMsg);
+  }
+
+  private void logError(String errorMsg) {
+    messager.printMessage(Diagnostic.Kind.ERROR, errorMsg);
+  }
 }

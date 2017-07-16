@@ -10,7 +10,7 @@ public class BaseViewHolder<T extends DisplayableItem> extends RecyclerView.View
 
     private RadarViewHolder<T> viewHolderDelegate;
 
-    public BaseViewHolder(View itemView, RadarViewHolder viewHolderDelegate) {
+    public BaseViewHolder(View itemView, RadarViewHolder<T> viewHolderDelegate) {
         super(itemView);
         if (viewHolderDelegate == null) {
             throw new IllegalArgumentException("View holder delegate cant be null");

@@ -33,6 +33,7 @@ final class ViewHolderValidator extends ClassValidator<ViewHolderAnnotatedClass>
    *     <li>Must implement or be subclass of superclass that implements {@link RadarViewHolder}</li>
    *     <li>Must have empty constructor</li>
    *     <li>Can't be enclosed</li>
+   *     <li>Can't implement any other interfaces</li>
    * </ul>
    * @param element
    * @throws ValidationException
@@ -44,5 +45,6 @@ final class ViewHolderValidator extends ClassValidator<ViewHolderAnnotatedClass>
     ensureIsNotEnclosed(element);
     ensureIsImplementingInterface(element, RadarViewHolder.class, ViewHolder.class);
     ensureHasEmptyConstructor(element);
+    //TODO: add not implementing any other interface
   }
 }

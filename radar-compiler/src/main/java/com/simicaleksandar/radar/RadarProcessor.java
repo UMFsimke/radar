@@ -3,17 +3,21 @@ package com.simicaleksandar.radar;
 import com.google.auto.service.AutoService;
 import com.simicaleksandar.radar.exceptions.MethodNameAlreadyUsedException;
 import com.simicaleksandar.radar.exceptions.QualifiedNameAlreadyUsedException;
+import com.simicaleksandar.radar.exceptions.ValidationException;
+import com.simicaleksandar.radar.generator.ViewHolderGroupGenerator;
 import com.simicaleksandar.radar.model.inner.AdapterFactoryAnnotatedInterface;
 import com.simicaleksandar.radar.model.inner.AdapterFactoryGroupedInterfaces;
 import com.simicaleksandar.radar.model.inner.RecyclerViewAdapterAnnotatedMethod;
 import com.simicaleksandar.radar.model.inner.RecyclerViewAdapterGroupedMethods;
 import com.simicaleksandar.radar.model.inner.ViewHolderAnnotatedClass;
 import com.simicaleksandar.radar.model.inner.ViewHolderGroupedClasses;
-import com.simicaleksandar.radar.exceptions.ValidationException;
 import com.simicaleksandar.radar.validation.Validator;
+import com.squareup.javapoet.JavaFile;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -84,6 +88,9 @@ public class RadarProcessor extends AbstractProcessor {
     hasErrors = processAdapterFactoryAnnotations(roundEnv);
     if (hasErrors) return true;
 
+    hasErrors = brewJava();
+    if (hasErrors) return true;
+
     return false;
   }
 
@@ -106,7 +113,7 @@ public class RadarProcessor extends AbstractProcessor {
   private ViewHolderAnnotatedClass parseViewHolderElement(Element annotatedElement) throws
           ValidationException {
     ViewHolderAnnotatedClass viewHolderAnnotatedClass = new
-            ViewHolderAnnotatedClass(annotatedElement);
+            ViewHolderAnnotatedClass(annotatedElement, typeUtils, elementUtils);
     Validator.newInstance(elementUtils, typeUtils).validate(viewHolderAnnotatedClass);
     return viewHolderAnnotatedClass;
   }
@@ -159,5 +166,39 @@ public class RadarProcessor extends AbstractProcessor {
             AdapterFactoryAnnotatedInterface(annotatedElement);
     Validator.newInstance(elementUtils, typeUtils).validate(adapterFactoryAnnotatedInterface);
     return adapterFactoryAnnotatedInterface;
+  }
+
+  private boolean brewJava() {
+    boolean hasErrors = false;
+    ViewHolderGroupGenerator viewHolderGroupGenerator = new ViewHolderGroupGenerator();
+    List<JavaFile> adapterDelegatesFiles = viewHolderGroupGenerator
+            .brewJava(viewHolderGroupedClasses);
+    hasErrors = printJavaFiles(adapterDelegatesFiles);
+    return hasErrors;
+  }
+
+  private boolean printJavaFiles(List<JavaFile> javaFiles) {
+    boolean hasErrors = false;
+    if (javaFiles == null) return hasErrors;
+
+    for (JavaFile javaFile : javaFiles) {
+      hasErrors = printJavaFile(javaFile);
+    }
+
+    return hasErrors;
+  }
+
+  private boolean printJavaFile(JavaFile javaFile) {
+    boolean hasErrors = false;
+    if (javaFile == null) return hasErrors;
+
+    try {
+      javaFile.writeTo(filer);
+    } catch (IOException e) {
+      hasErrors = true;
+      Logger.error(e.getLocalizedMessage());
+    }
+
+    return hasErrors;
   }
 }

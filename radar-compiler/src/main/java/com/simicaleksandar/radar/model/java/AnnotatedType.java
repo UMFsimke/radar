@@ -2,6 +2,7 @@ package com.simicaleksandar.radar.model.java;
 
 import com.simicaleksandar.radar.exceptions.ValidationException;
 import com.simicaleksandar.radar.model.AnnotatedElement;
+import com.squareup.javapoet.ClassName;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -12,6 +13,7 @@ public abstract class AnnotatedType extends AnnotatedElement {
     protected String simpleTypeName;
     protected String qualifiedName;
     protected TypeElement annotatedElement;
+    protected String packageName;
 
     public AnnotatedType(Element element, ElementKind kind) throws ValidationException {
         if (element.getKind() != kind) {
@@ -27,6 +29,7 @@ public abstract class AnnotatedType extends AnnotatedElement {
     protected void readRequiredInfo() {
         qualifiedName = annotatedElement.getQualifiedName().toString();
         simpleTypeName = annotatedElement.getSimpleName().toString();
+        packageName = ClassName.get(annotatedElement).packageName();
     }
 
     /**
@@ -53,5 +56,9 @@ public abstract class AnnotatedType extends AnnotatedElement {
      */
     public TypeElement getAnnotatedElement() {
         return annotatedElement;
+    }
+
+    public String getPackageName() {
+        return packageName;
     }
 }

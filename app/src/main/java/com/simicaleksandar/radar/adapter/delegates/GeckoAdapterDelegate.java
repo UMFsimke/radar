@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 import com.simicaleksandar.radar.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import radar.RadarViewHolder;
 import com.simicaleksandar.radar.datamodel.GeckoDataModel;
 import com.simicaleksandar.radar.inner.RecyclerViewAdapterDelegate;
@@ -23,13 +26,13 @@ public class GeckoAdapterDelegate extends RecyclerViewAdapterDelegate<GeckoDataM
     return new GeckoRowViewHolder();
   }
 
-  private static class GeckoRowViewHolder implements RadarViewHolder<GeckoDataModel> {
+  protected static class GeckoRowViewHolder implements RadarViewHolder<GeckoDataModel> {
 
-    private TextView geckoDescription;
+    @BindView(R.id.gecko_desc) TextView geckoDescription;
 
     @Override
     public void onCreateViewHolder(View itemView) {
-      geckoDescription = (TextView) itemView.findViewById(R.id.gecko_desc);
+      ButterKnife.bind(this, itemView);
     }
 
     @Override

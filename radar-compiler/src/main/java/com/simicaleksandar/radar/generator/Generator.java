@@ -1,5 +1,7 @@
 package com.simicaleksandar.radar.generator;
 
+import com.squareup.javapoet.JavaFile;
+
 public interface Generator<T> {
-    void generate(T element);
+    JavaFile brewJava(T element);
 }
